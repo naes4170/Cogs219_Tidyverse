@@ -9,6 +9,7 @@ stimuli = ['red', 'orange', 'yellow', 'green', 'blue']
 win = visual.Window([800,600],color="gray", units='pix',checkTiming=False)
 placeholder = visual.Rect(win,width=180,height=80, fillColor="lightgray",lineColor="black", lineWidth=6,pos=[0,0])
 word_stim = visual.TextStim(win,text="", height=40, color="black",pos=[0,0])
+fixation_cross = visual.TextStim(win,text="+", height=40, color="black",pos=[0,0])
 instruction = visual.TextStim(win,text="Press the first letter of the ink color", height=20, color="black",pos=[0,-200])
 while True:
     cur_stim = random.choice(stimuli)
