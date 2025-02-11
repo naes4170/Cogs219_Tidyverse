@@ -1,13 +1,19 @@
 from psychopy import visual, event, core # import the bits of PsychoPy we'll need for this walkthrough
+import os
 
 #open a window
 win = visual.Window([800,800],color="grey", units='pix', checkTiming=False) 
 
+#path
+script_dir=os.path.dirname(os.path.abspath(__file__))
+
 #grassy field
-field = visual.ImageStim(win,image="stimuli/images/GrassyField.png",size=[800,800])
+field_path = os.path.join(script_dir,"stimuli","images","GrassyField.png")
+field = visual.ImageStim(win,image=field_path,size=[800,800])
 
 #create an image
-bulbie = visual.ImageStim(win,image="stimuli/images/bulbasaur.png",size=[200,200])
+bulbie_path=os.path.join(script_dir,"stimuli","images","bulbasaur.png")
+bulbie = visual.ImageStim(win,image=bulbie_path,size=[200,200])
 
 # create a mouse
 mouse = event.Mouse(win=win)

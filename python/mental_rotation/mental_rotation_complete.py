@@ -1,4 +1,5 @@
 from psychopy import visual, event, core, sound, gui # import the bits of PsychoPy we'll need for this walkthrough
+from psychopy.gui import DlgFromDict
 import os
 from generate_trials import generate_trials
 from helper import get_runtime_vars, import_trials, load_files, get_keyboard_response
@@ -7,10 +8,33 @@ from helper import get_runtime_vars, import_trials, load_files, get_keyboard_res
 #open a window
 win = visual.Window([800,800],color="grey", units='pix', checkTiming=False) 
 
-#get runtime variables
-order =  ['subj_code','seed','gender']
-runtime_vars= get_runtime_vars({'subj_code':'mr_101', 'seed':10, 'gender':['Choose', 'male','female', 'other']}, order)
+from psychopy import gui, core
+
+def get_runtime_vars(defaults, order):
+    core.wait(0.1)  # Small delay before dialog
+    dlg = gui.DlgFromDict(dictionary=defaults, order=order, title="Experiment Setup")
+    core.wait(0.1)  # Small delay after dialog
+    return defaults if dlg.OK else None
+
+order = ['subj_code', 'seed', 'gender']
+runtime_vars = get_runtime_vars({'subj_code': 'mr_101', 'seed': 10, 'gender': ['Choose', 'male', 'female', 'other']}, order)
+
 print(runtime_vars)
+
+
+# def get_runtime_vars(defaults, order):
+#     dlg = DlgFromDict(dictionary=defaults, order=order, title="Experiment Setup")
+#     if dlg.OK:
+#         return defaults
+#     else:
+#         return None
+
+# #get runtime variables
+# order =  ['subj_code','seed','gender']
+# runtime_vars= get_runtime_vars({'subj_code':'mr_101', 'seed':10, 'gender':['Choose', 'male','female', 'other']}, order)
+# if runtime_vars is None:
+#     core.quit() 
+# print(runtime_vars)
 
 # generate trials
 generate_trials(runtime_vars['subj_code'],runtime_vars['seed'])
