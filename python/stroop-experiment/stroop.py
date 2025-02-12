@@ -23,11 +23,9 @@ while True:
     placeholder.draw()
     word_stim.draw()
     win.flip()
-    core.wait(1.0)
+    key_pressed = event.waitKeys(keyList=['r','o','y','g','b','q'])
     placeholder.draw()
     win.flip()
     core.wait(.15)
-
-    if event.getKeys(['q']):
-        win.close()
-        core.quit()
+    if key_pressed == ['q']:
+        break
