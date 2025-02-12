@@ -5,6 +5,12 @@ import random
 import csv
 from psychopy import visual,event,core,gui
 
+incongruent_list = ['red', 'orange', 'yellow', 'green', 'blue']
+
+def make_incongruent(cur_stim):
+    filtered_list = list(filter(lambda word: word != cur_stim, incongruent_list))
+    return random.choice(filtered_list)# I laid down the ground work but did pipe it into Chatgpt to bugfix the filter function
+
 stimuli = ['red', 'orange', 'yellow', 'green', 'blue']
 
 win = visual.Window([800,600],color="gray", units='pix',checkTiming=False)
@@ -21,8 +27,9 @@ while True:
     cur_stim = random.choice(stimuli)
     Ans = list(cur_stim[0])
     print(cur_stim[0])
+    incongruent_choice = make_incongruent(cur_stim)
     word_stim.setText(cur_stim)
-    word_stim.setColor(cur_stim)
+    word_stim.setColor(incongruent_choice)
     fixation_cross.draw()
     win.flip()
     core.wait(.5)
