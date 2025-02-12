@@ -2,6 +2,7 @@ import time
 import sys
 import os
 import random
+import csv
 from psychopy import visual,event,core,gui
 
 stimuli = ['red', 'orange', 'yellow', 'green', 'blue']
@@ -11,6 +12,8 @@ placeholder = visual.Rect(win,width=180,height=80, fillColor="lightgray",lineCol
 word_stim = visual.TextStim(win,text="", height=40, color="black",pos=[0,0])
 fixation_cross = visual.TextStim(win,text="+", height=15, color="black",pos=[0,0])
 instruction = visual.TextStim(win,text="Press the first letter of the ink color", height=20, color="black",pos=[0,-200], autoDraw=True)
+RTs = open("RTs.csv", mode="w", newline="") #I tried what Chatgpt suggested but it didn't work, so I did it on my own through incorporating your in-class code!
+
 while True:
     cur_stim = random.choice(stimuli)
     word_stim.setText(cur_stim)
@@ -23,9 +26,15 @@ while True:
     placeholder.draw()
     word_stim.draw()
     win.flip()
+    timer = core.Clock()
     key_pressed = event.waitKeys(keyList=['r','o','y','g','b','q'])
     placeholder.draw()
     win.flip()
+    dur = timer.getTime()
+    print(dur)
+    RTs.write(str(dur)+'\n')
+    timer.reset()
+
     core.wait(.15)
     if key_pressed == ['q']:
         break
