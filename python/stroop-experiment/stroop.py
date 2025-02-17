@@ -56,7 +56,8 @@ def generate_trials(subj_code, seed,num_repetitions=25):
                 else:
                     cur_color = cur_stim
                 trials.append([subj_code,seed,cur_stim, cur_color, tr_ty, ori])
-
+    #Randomizing
+    random.shuffle(trials)
     # write the trials to the file
     for trial in trials:
         f.write(separator.join(map(str, trial)) + '\n')
