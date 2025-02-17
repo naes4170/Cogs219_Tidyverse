@@ -9,6 +9,8 @@ from psychopy import visual,event,core,gui
 #I also tried it in a separate .py file
 #I then realized there are some problems, I've been using the wrong list of words for the incongruent function
 #Trying Martin's HW
+
+
 def generate_trials(subj_code, seed,num_repetitions=25):
     '''
     Writes a file named {subj_code_}trials.csv, one line per trial. Creates a trials subdirectory if one does not exist
@@ -65,6 +67,15 @@ def generate_trials(subj_code, seed,num_repetitions=25):
     return trials
     #close the file
     f.close()
+
+#Copied the following from mental rotation practice we did in class
+def get_runtime_vars(defaults, order):
+    core.wait(0.1)  # Small delay before dialog
+    dlg = gui.DlgFromDict(dictionary=defaults, order=order, title="Stroop Setup")
+    core.wait(0.1)  # Small delay after dialog
+    return defaults if dlg.OK else None
+order = ['subj_code', 'seed', 'num_reps']
+runtime_vars = get_runtime_vars({'subj_code':'stroop_101','seed': 101, 'num_reps': 25}, order)
 
 incongruent_list = ['red', 'orange', 'yellow', 'green', 'blue']
 
