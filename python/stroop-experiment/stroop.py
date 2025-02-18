@@ -11,7 +11,7 @@ from psychopy import visual,event,core,gui
 #Trying Martin's HW
 
 
-def generate_trials(subj_code, seed,num_repetitions=25):
+def generate_trials(subj_code, seed, num_reps):
     '''
     Writes a file named {subj_code_}trials.csv, one line per trial. Creates a trials subdirectory if one does not exist
     subj_code: a string corresponding to a participant's unique subject code
@@ -49,7 +49,7 @@ def generate_trials(subj_code, seed,num_repetitions=25):
     
     # write code to loop through creating and adding trials to the file here
     trials = []
-    for num in range (num_repetitions):
+    for num in range (num_reps):
         for tr_ty in trial_type:
             for ori in orientation:
                 cur_stim = random.choice(colors)
@@ -95,14 +95,31 @@ Too_slow = visual.TextStim(win,text="Too slow", height=15, color="black")
 RTs = open("RTs.csv", mode="w", newline="") #I tried what Chatgpt suggested but it didn't work, so I did it on my own through incorporating your in-class code!
 key_pressed=False #Saw this in the answer key, put here in case
 timer = core.Clock()
-while True:
-    cur_stim = random.choice(stimuli)
+
+#Try reading trial file
+from helper import get_runtime_vars, import_trials, load_files, get_keyboard_response
+
+generate_trials(runtime_vars['subj_code'],runtime_vars['seed'], runtime_vars['num_reps'])
+script_dir = os.path.dirname(os.path.abspath(__file__))
+trial_path = os.path.join(script_dir,'trials',runtime_vars['subj_code']+'_trials.csv')
+trial_list = import_trials(trial_path)
+print(trial_list)
+
+#Looping trials through the lists
+for trial in trial_list:
+    cur_stim = trial['word']
+    color = trial['color']
+    trial_type = trial['trial_type']
+    ori = trial['orientation']
     Ans = list(cur_stim[0])
     print(cur_stim[0])
-    incongruent_choice = make_incongruent(cur_stim)
     word_stim.setText(cur_stim)
-    word_stim.setColor(incongruent_choice)
+    word_stim.setColor(color)
     fixation_cross.draw()
+    if ori == 'upright':
+        word_stim.setOri(0)
+    else:
+        word_stim.setOri(180)
     win.flip()
     core.wait(.5)
     win.flip()
@@ -133,3 +150,44 @@ while True:
     core.wait(.15)
     if key_pressed == ['q']:
         break
+
+
+
+# while True:
+#     cur_stim = random.choice(stimuli)
+#     Ans = list(cur_stim[0])
+#     print(cur_stim[0])
+#     incongruent_choice = make_incongruent(cur_stim)
+#     word_stim.setText(cur_stim)
+#     word_stim.setColor(incongruent_choice)
+#     fixation_cross.draw()
+#     win.flip()
+#     core.wait(.5)
+#     win.flip()
+#     core.wait(.5)
+#     placeholder.draw()
+#     word_stim.draw()
+#     win.flip()
+#     timer.reset()
+#     dur = timer.getTime()
+#     key_pressed = event.waitKeys(keyList=['r','o','y','g','b','q'], maxWait=2)
+#     if not key_pressed:
+#         Too_slow.draw()
+#         win.flip()
+#         core.wait(1)
+#     elif key_pressed == Ans:
+#         pass
+#     elif key_pressed == ['q']:
+#         break
+#     else:
+#         Feedback.draw()
+#         win.flip()
+#         core.wait(1)
+#     print(dur)
+
+#     RTs.write(str(dur)+'\n')
+#     timer.reset()
+
+#     core.wait(.15)
+#     if key_pressed == ['q']:
+#         break
