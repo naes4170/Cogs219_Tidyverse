@@ -1,0 +1,12 @@
+subj_code,seed,word,color,trial_type,orientation,trial_num,response,is_correct,rt
+S1,101,red,green,incongruent,upside_down,1,r,1,0.973
+S1,101,orange,red,incongruent,upside_down,2,o,1,1.457
+S1,101,blue,blue,congruent,upright,3,b,1,0.636
+S1,101,red,red,congruent,upright,4,o,0,0.249
+S1,101,yellow,green,incongruent,upright,5,No response,0,2.0
+S1,101,yellow,red,incongruent,upside_down,6,y,1,0.344
+S1,101,orange,blue,incongruent,upside_down,7,o,1,1.184
+S1,101,orange,orange,congruent,upside_down,8,b,0,0.576
+S1,101,red,red,congruent,upside_down,9,b,0,1.138
+S1,101,orange,orange,congruent,upright,10,b,0,1.286
+S1,101,green,red,incongruent,upright,11,b,0,1.378

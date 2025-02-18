@@ -1,0 +1,7 @@
+subj_code,seed,word,color,trial_type,orientation,trial_num,response,is_correct,rt
+stroop_101,101,red,green,incongruent,upside_down,1,No response,0,2
+stroop_101,101,orange,red,incongruent,upside_down,2,o,1,1
+stroop_101,101,blue,blue,congruent,upright,3,b,1,1
+stroop_101,101,red,red,congruent,upright,4,r,1,2
+stroop_101,101,yellow,green,incongruent,upright,5,y,1,1
+stroop_101,101,yellow,red,incongruent,upside_down,6,y,1,1

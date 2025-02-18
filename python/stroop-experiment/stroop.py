@@ -92,7 +92,6 @@ fixation_cross = visual.TextStim(win,text="+", height=15, color="black",pos=[0,0
 instruction = visual.TextStim(win,text="Press the first letter of the ink color", height=20, color="black",pos=[0,-200], autoDraw=True)
 Feedback = visual.TextStim(win,text="Incorrect", height=15, color="black")
 Too_slow = visual.TextStim(win,text="Too slow", height=15, color="black")
-RTs = open("RTs.csv", mode="w", newline="") #I tried what Chatgpt suggested but it didn't work, so I did it on my own through incorporating your in-class code!
 key_pressed=False #Saw this in the answer key, put here in case
 timer = core.Clock()
 
@@ -104,6 +103,17 @@ script_dir = os.path.dirname(os.path.abspath(__file__))
 trial_path = os.path.join(script_dir,'trials',runtime_vars['subj_code']+'_trials.csv')
 trial_list = import_trials(trial_path)
 print(trial_list)
+
+try:
+    os.mkdir(os.path.join(script_dir,'data'))
+except FileExistsError:
+    pass
+
+separator = ','
+subj_data = open(os.path.join(script_dir, 'data', f"{runtime_vars['subj_code']}_data.csv"), mode="w", newline="")
+header = separator.join(["subj_code","seed","word", 'color','trial_type','orientation', 'trial_num', 'response', 'is_correct', 'rt'])
+subj_data.write(header+'\n')
+trial_num = 0
 
 #Looping trials through the lists
 for trial in trial_list:
@@ -127,29 +137,40 @@ for trial in trial_list:
     placeholder.draw()
     word_stim.draw()
     win.flip()
+
     timer.reset()
-    dur = timer.getTime()
     key_pressed = event.waitKeys(keyList=['r','o','y','g','b','q'], maxWait=2)
+    rt = round(timer.getTime(), 3)
     if not key_pressed:
+        response = "No response"
+        is_correct = 0
         Too_slow.draw()
         win.flip()
         core.wait(1)
     elif key_pressed == Ans:
-        pass
+         is_correct = 1
+         response = key_pressed[0]
     elif key_pressed == ['q']:
         break
     else:
+        is_correct = 0
+        response = key_pressed[0]
         Feedback.draw()
         win.flip()
         core.wait(1)
-    print(dur)
+    print(rt)
 
-    RTs.write(str(dur)+'\n')
+    trial_num += 1
+    row = separator.join(map(str, [runtime_vars['subj_code'], runtime_vars['seed'], cur_stim, color, trial_type, ori, trial_num, response, is_correct, rt]))
+
+    subj_data.write(row+'\n')
     timer.reset()
 
     core.wait(.15)
     if key_pressed == ['q']:
         break
+
+subj_data.close()
 
 
 
